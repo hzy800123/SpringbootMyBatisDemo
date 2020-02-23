@@ -12,6 +12,7 @@ import org.springframework.core.io.support.EncodedResource;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 import java.util.Properties;
 
 public class AnnotationConfigurationDemo {
@@ -25,11 +26,21 @@ public class AnnotationConfigurationDemo {
         SqlSessionFactory factory = builder.build(reader, "dev", new Properties());
         SqlSession session = factory.openSession();
 
+        System.out.println("------------------");
         UserMapper mapper = session.getMapper(UserMapper.class);
         User user = mapper.selectUser(1);
 
         System.out.println(user);
+        System.out.println("------------------");
 
+        mapper.deleteUser(2);
+        session.commit();
+
+        System.out.println("------------------");
+        List<User> userList = mapper.retrieveAllUser();
+        userList.forEach(System.out::println);
+
+        System.out.println("------------------");
         session.close();
     }
 }
