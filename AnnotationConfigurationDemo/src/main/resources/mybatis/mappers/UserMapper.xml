@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mappers.UserMapper">
+    <resultMap type="com.MyBatisDemo.entity.User" id="UserResult">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="age" column="age"/>
+        <result property="regTime" column="reg_time"/>
+    </resultMap>
+</mapper>

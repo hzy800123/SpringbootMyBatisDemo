@@ -18,6 +18,7 @@
         </environments>
         <mappers>
             <mapper class="com.MyBatisDemo.mapper.UserMapper"/>
+            <mapper resource="mybatis/mappers/UserMapper.xml"/>
 <!--            <package name="com.MyBatisDemo.mapper"/>-->
         </mappers>
     </configuration>
