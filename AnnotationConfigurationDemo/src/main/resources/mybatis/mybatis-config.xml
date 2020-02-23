@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+    <configuration>
+        <properties resource="mybatis/mybatis.properties"/>
+        <environments default="dev">
+            <environment id="dev">
+                <transactionManager type="JDBC"></transactionManager>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${jdbc_driver}"/>
+                    <property name="url" value="${jdbc_url}"/>
+                    <property name="username" value="${jdbc_username}"/>
+                    <property name="password" value="${jdbc_password}"/>
+                </dataSource>
+            </environment>
+        </environments>
+        <mappers>
+<!--            <mapper class="com.MyBatisDemo.mapper.UserMapper"/>-->
+            <package name="com.MyBatisDemo.mapper"/>
+        </mappers>
+    </configuration>
