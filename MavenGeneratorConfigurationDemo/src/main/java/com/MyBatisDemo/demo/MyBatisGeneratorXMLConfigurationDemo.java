@@ -36,23 +36,15 @@ public class MyBatisGeneratorXMLConfigurationDemo {
 
         System.out.println("------------------");
         UserExample example2 = new UserExample();
-        example2.createCriteria().andIdIsNotNull();
-        List<User> usersList = mapper.selectByExample(example2);
-        usersList.forEach(System.out::println);
+        example2.createCriteria().andIdEqualTo(2);
+        mapper.deleteByExample(example2);
+        session.commit();
 
-//        System.out.println("------------------");
-//        UserMapper mapper = session.getMapper(UserMapper.class);
-//        User user = mapper.selectUser(1);
-//
-//        System.out.println(user);
-//        System.out.println("------------------");
-//
-//        mapper.deleteUser(2);
-//        session.commit();
-//
-//        System.out.println("------------------");
-//        List<User> userList = mapper.retrieveAllUser();
-//        userList.forEach(System.out::println);
+        System.out.println("------------------");
+        UserExample example3 = new UserExample();
+        example3.createCriteria().andIdIsNotNull();
+        List<User> usersList = mapper.selectByExample(example3);
+        usersList.forEach(System.out::println);
 
         System.out.println("------------------");
         session.close();
