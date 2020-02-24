@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/db_mybatis_demo?serverTimezone=GMT%2B8"
+                        userId="root"
+                        password="123456">
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.MyBatisDemo.entityGenerator"
+                            targetProject="${user.dir}/src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mybatis.mappersGenerator"
+                         targetProject="${user.dir}/src/main/resources"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.MyBatisDemo.mapperGenerator"
+                             targetProject="${user.dir}/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="user">
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="user_name" property="userName" />
+            <columnOverride column="pass_word" property="passWord" />
+            <columnOverride column="age" property="age" />
+            <columnOverride column="reg_time" property="regTime" />
+        </table>
+    </context>
+</generatorConfiguration>
