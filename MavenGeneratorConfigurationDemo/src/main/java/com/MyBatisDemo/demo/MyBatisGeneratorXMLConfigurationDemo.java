@@ -1,7 +1,7 @@
 package com.MyBatisDemo.demo;
 
 import com.MyBatisDemo.entityGenerator.User;
-import com.MyBatisDemo.entityGenerator.UserExample;
+import com.MyBatisDemo.entityGenerator.UserCondition;
 import com.MyBatisDemo.mapperGenerator.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,21 +29,21 @@ public class MyBatisGeneratorXMLConfigurationDemo {
 
         System.out.println("------------------");
         UserMapper mapper = session.getMapper(UserMapper.class);
-        UserExample example = new UserExample();
-        example.createCriteria().andIdEqualTo(1);
-        List<User> users = mapper.selectByExample(example);
+        UserCondition condition = new UserCondition();
+        condition.createCriteria().andIdEqualTo(1);
+        List<User> users = mapper.selectByExample(condition);
         System.out.println(users.get(0).toString());
 
         System.out.println("------------------");
-        UserExample example2 = new UserExample();
-        example2.createCriteria().andIdEqualTo(2);
-        mapper.deleteByExample(example2);
+        UserCondition condition2 = new UserCondition();
+        condition2.createCriteria().andIdEqualTo(2);
+        mapper.deleteByExample(condition2);
         session.commit();
 
         System.out.println("------------------");
-        UserExample example3 = new UserExample();
-        example3.createCriteria().andIdIsNotNull();
-        List<User> usersList = mapper.selectByExample(example3);
+        UserCondition condition3 = new UserCondition();
+        condition3.createCriteria().andIdIsNotNull();
+        List<User> usersList = mapper.selectByExample(condition3);
         usersList.forEach(System.out::println);
 
         System.out.println("------------------");
