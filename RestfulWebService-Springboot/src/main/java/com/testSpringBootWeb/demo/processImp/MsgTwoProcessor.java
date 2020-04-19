@@ -1,16 +1,35 @@
 package com.testSpringBootWeb.demo.processImp;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.testSpringBootWeb.demo.processInterface.MsgProcessor;
+import com.testSpringBootWeb.demo.webObject.WebRequest;
+import com.testSpringBootWeb.demo.webObject.WebResponse;
 import org.springframework.stereotype.Component;
 
 @Component("MsgTwoProcessor")
 public class MsgTwoProcessor implements MsgProcessor {
 
     @Override
-    public String process(String inputParam) {
-        String resultString = null;
-        resultString = inputParam.concat(" is processed in Class MsgTwoProcessor.");
+    public WebResponse process(String requestMsg) {
+        System.out.println("Processed in Class MsgTwoProcessor");
+        WebRequest webRequest = null;
+        WebResponse webResponse = new WebResponse();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
+            webRequest = objectMapper.readValue(requestMsg, WebRequest.class);
+            System.out.println("webRequest: " + webRequest.toString());
 
-        return resultString;
+            webResponse.setId(webRequest.getId());
+            webResponse.setDate(webRequest.getDate());
+            webResponse.setResult("This is Result of MsgTwoProcessor.");
+            System.out.println("webResponse: " + webResponse.toString());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return webResponse;
     }
 }
