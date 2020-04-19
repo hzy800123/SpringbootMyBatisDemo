@@ -1,0 +1,44 @@
+- SpringBoot 实现 Restful Web Service 步骤：
+
+1. 创建一个 @Controller，名字叫 MsgHandler的类。
+@Controller
+public class MsgHandler {
+
+
+2. 在类里面创建一个匹配的 @RequestMapping 指定的 处理方法。
+@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/request/{requestId}")
+public ResponseEntity messageHandler(
+         @PathVariable("requestId") String requestId,
+         @RequestBody String requestMsg) {
+
+    return responseEntity;
+}
+
+
+3. 创建一个 @Component，名字叫 MsgOneProcessor 的类。其中运用jackson.databind.ObjectMapper，将JSON的字符串，反序列化成Object。
+-参考介绍：
+https://juejin.im/post/5bc6d475e51d450e4f391cce
+
+@Component("MsgOneProcessor")
+public class MsgOneProcessor implements MsgProcessor {
+        WebRequest webRequest = null;
+        WebResponse webResponse = new WebResponse();    
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
+
+        webRequest = objectMapper.readValue(requestMsg, WebRequest.class);    
+
+        return webResponse;
+}
+
+(a) 简单的把JSON反序列化成Object的用法如下:
+value = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", MyValue.class);
+
+(b) 简单的把Object序列化成JSON的用法如下:
+String jsonString = mapper.writeValueAsString(myResultObject);
+
+
+4. 通过 @Component 的类 处理完成之后，返回 结果对象 给 @Controller 的类。最后，@Controller 类将结果对象传入 ResponseEntity 对象返回给Client。
+WebResponse webResponse = msgProcessor.process(requestMsg);
+responseEntity = new ResponseEntity<>(webResponse, HttpStatus.OK);
+

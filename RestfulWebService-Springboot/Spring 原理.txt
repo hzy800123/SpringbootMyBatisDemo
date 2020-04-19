@@ -1,0 +1,44 @@
+Spring:
+
+(1) Spring核心思想，IoC与DI详解:
+https://blog.csdn.net/Baple/article/details/53667767
+
+(2) 【第二章】 IoC 之 2.1 IoC基础 ——跟我学Spring3
+http://sishuok.com/forum/blogPost/list/2427.html
+
+
+- Spring 的 DispatcherServlet.java 底层实现原理：
+
+1.加载 配置文件 web.xml。
+2.根据配置文件XML的指定路径，先扫描并获取 指定的包 下的 每个类的 全路径。
+3.然后可以通过 反射机制 生成实例。
+4.再放到 IOC 容器里(Map)，(Key - Value, beanName - bean)，beanName默认是首写小字母。 // Map<String, Object> 即 Map<类名, 实例>
+
+5.进一步，遍历 IOC 容器，找出所有带有 @Controller 的类。
+6.下一步，获取 这些类里面的 @RequestMapping里的 baseURL的值。 e.g. @RequestMapping("/test")
+7.同时，获取 这些类里面的 @RequestMapping指定的 方法。e.g. public String testMethod() {}
+8.此时，可以把 baseURL 作为 Key, 对应的方法 作为 Value，放进 HandlerMapping 的 Map 里。
+  e.g. handlerMapping.put(baseURL, method)      // 关联映射 Map<String, Method>
+9.完成了初始化 HandlerMapping，将 URL 和 method 对应上。
+
+10.最后实现 注入，再 控制器类 里，通过@Autowired / @Qualifier 注入 Service 的实现方法。
+e.g.
+// 拿到控制器类里面的 所有属性，然后将 对应属性的类的具体实现 注入（赋值）到标注了@Autowired / @Qualifier 的属性中。
+for( Entry<Strin, Object> entry : ioc.entrySet() ) {
+  Field fields[] = entry.getValue().getClass().getDeclaredFields();
+  for( Field field : fields ) {
+    if( field.isAnnotationPresent(Qualifier.class)) ){
+      field.set(entry.getValue(), ioc.get(key));    // 依赖 注入
+    }
+  }  
+}
+
+11. doDispatch 方法：（当接收到请求的URL，如何通过反射，调用对应的处理方法）
+// 利用 反射机制 的 invoke方法 来调用：
+Method method = this.handlerMapping.get(url);
+method.invoke(this.oic.get(url), paramValues);  // obj 是 method 所对应的实例，在 ioc 容器中, paramValues 是调用方法的传入的参数。
+- 参数：
+第一个参数是方法属于的对象（如果是静态方法，则可以直接传 null）
+第二个可变参数是该方法的参数
+
+
