@@ -15,7 +15,7 @@ public ResponseEntity messageHandler(
 }
 
 
-3. 创建一个 @Component，名字叫 MsgOneProcessor 的类。其中运用jackson.databind.ObjectMapper，将JSON的字符串，反序列化成Object。
+3. 创建一个 @Component，名字叫 MsgOneProcessor 的类。其中运用fasterxml.jackson.databind.ObjectMapper，将JSON的字符串，反序列化成Object。
 -参考介绍：
 https://juejin.im/post/5bc6d475e51d450e4f391cce
 
@@ -31,10 +31,10 @@ public class MsgOneProcessor implements MsgProcessor {
         return webResponse;
 }
 
-(a) 简单的把JSON反序列化成Object的用法如下:
+(a) 简单的把JSON 反序列化 成Object的用法如下:
 value = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", MyValue.class);
 
-(b) 简单的把Object序列化成JSON的用法如下:
+(b) 简单的把Object 序列化 成JSON的用法如下:
 String jsonString = mapper.writeValueAsString(myResultObject);
 
 
