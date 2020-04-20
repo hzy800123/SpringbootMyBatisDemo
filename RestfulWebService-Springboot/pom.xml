@@ -13,6 +13,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
+<!--	<packaging>war</packaging>-->
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -49,10 +51,14 @@
 	</dependencies>
 
 	<build>
+		<finalName>springboot-package</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.testSpringBootWeb.demo.DemoApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
