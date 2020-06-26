@@ -1,0 +1,24 @@
+-Start Java Application in Docker command:
+docker run -t -p 9090:9090 springboot-app:latest
+=>
+docker run -t -p 9090:9090 --name springboot-java --link mysql:mysql springboot-app:latest
+or
+docker run -t -p 9090:9090 --name springboot-java --link mysql:mysql -d springboot-app:latest
+
+With Network:
+docker run -t -p 9090:9090 --name springboot-java --network=isolated_nw -d springboot-app:latest
+
+
+-Start MySQL Database in Docker command:
+docker run --detach --name=mysql --env="MYSQL_ROOT_PASSWORD=123456" --publish 3306:3306 --volume=/root/docker/mysql/conf.d:/etc/mysql/conf.d --volume=/storage/docker/mysql-data:/var/lib/mysql mysql:5.7
+
+With Network:
+docker run --detach --name=mysql --network=isolated_nw --env="MYSQL_ROOT_PASSWORD=123456" --publish 3306:3306 --volume=/root/docker/mysql/conf.d:/etc/mysql/conf.d --volume=/storage/docker/mysql-data:/var/lib/mysql mysql:5.7
+
+-Enter into the MySQL Docker command:
+docker exec -it mysqldb1 /bin/bash
+
+-Create a new Network for dockers:
+docker network create -d bridge --subnet 172.25.0.0/16 isolated_nw
+
+
