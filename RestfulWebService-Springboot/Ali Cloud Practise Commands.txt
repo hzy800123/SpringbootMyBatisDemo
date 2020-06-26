@@ -22,3 +22,9 @@ docker exec -it mysqldb1 /bin/bash
 docker network create -d bridge --subnet 172.25.0.0/16 isolated_nw
 
 
+-MySQL Database custom config:
+max_connections = 200
+max_connect_errors = 10000
+skip_name_resolve
+skip-grant-tables
+
